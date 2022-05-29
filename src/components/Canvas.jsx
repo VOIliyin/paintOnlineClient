@@ -1,12 +1,22 @@
-import React from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useEffect, useRef } from 'react';
+import canvasState from '../store/canvasState';
+import toolState from '../store/toolState';
 import '../styles/canvas.scss'
+import { Brash } from '../tools/Brash';
 
-function Canvas() {
+const Canvas = observer(() => {
+    const refCanvas = useRef();
+
+    useEffect(() => {
+        canvasState.setCanvas(refCanvas.current);
+        toolState.setTool(new Brash(canvasState.canvas))
+    }, [])
     return (
         <div className="canvas">
-            <canvas width={800} height={600}/>
+            <canvas ref={refCanvas} width={800} height={600}/>
         </div>
     );
-}
+})
 
 export default Canvas;
