@@ -12,9 +12,19 @@ const Canvas = observer(() => {
         canvasState.setCanvas(refCanvas.current);
         toolState.setTool(new Brash(canvasState.canvas))
     }, [])
+
+    function mouseDownHandler() {
+        canvasState.pushToUndo(refCanvas.current.toDataURL())
+    }
+
     return (
         <div className="canvas">
-            <canvas ref={refCanvas} width={800} height={600}/>
+            <canvas
+                onMouseDown={mouseDownHandler}
+                ref={refCanvas} 
+                width={800} 
+                height={600}
+            />
         </div>
     );
 })
